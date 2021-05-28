@@ -1,0 +1,35 @@
+#!/bin/bash
+# Get tags
+# curl -L -s 'https://registry.hub.docker.com/v2/repositories/ceph/daemon/tags?page_size=1024'|jq '."results"[]["name"]'
+
+IMAGE_TAG=ceph/daemon:latest-pacific
+ENTRYPOINT=demo
+
+# TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
+
+CMD=(
+ docker run -d --privileged --name ceph-demo 
+ -v /etc/modprobe.d:/etc/modprobe.d 
+ -v /mnt/ceph:/var/lib/ceph
+ -e RGW_FRONTEND_TYPE=beast
+ -e DEBUG=verbose
+ -e RGW_FRONTEND_PORT=8000
+ -e MON_IP=127.0.0.1
+ -e CEPH_PUBLIC_NETWORK=0.0.0.0/0
+ -e CLUSTER=test
+ -e CEPH_DEMO_UID=demo
+ -e CEPH_DEMO_ACCESS_KEY=G1EZ5R4K6IJ7XUQKMAED
+ -e CEPH_DEMO_SECRET_KEY=cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz
+ -e CEPH_DEMO_BUCKET=foobar
+ -e SREE_PORT=5001
+ -e DATA_TO_SYNC=/etc/modprobe.d
+ -e DATA_TO_SYNC_BUCKET=github
+ -e OSD_COUNT=2 
+ ${IMAGE_TAG}
+ ${ENTRYPOINT}
+)
+
+# this might bail out the first time
+"${CMD[@]}"
+
+docker start ceph-demo
