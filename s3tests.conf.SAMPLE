@@ -1,55 +1,40 @@
 [DEFAULT]
-## this section is just used for host, port and bucket_prefix
+## this section is just used as default for all the "s3 *"
+## sections, you can place these variables also directly there
 
-# host set for rgw in vstart.sh
+## replace with e.g. "localhost" to run against local software
 host = 172.17.0.2
 
-# port set for rgw in vstart.sh
+## uncomment the port to use something other than 80
 port = 8000
 
-## say "False" to disable TLS
-is_secure = False
+## say "no" to disable TLS
+is_secure = no
 
 [fixtures]
 ## all the buckets created will start with this prefix;
 ## {random} will be filled with random characters to pad
 ## the prefix to 30 characters long, and avoid collisions
-bucket prefix = demo-test-{random}-
+bucket prefix = ceph-demo-test-{random}-
 
 [s3 main]
-# main display_name set in vstart.sh
-display_name = M. Tester
+## the tests assume two accounts are defined, "main" and "alt".
 
-# main user_idname set in vstart.sh
+## user_id is a 64-character hexstring
 user_id = demo
 
-# main email set in vstart.sh
-email = tester@ceph.com
+## display name typically looks more like a unix login, "jdoe" etc
+display_name = admin
 
-# zonegroup api_name for bucket location
-api_name = default
-
-## main AWS access key
+## replace these with your access keys
 access_key = G1EZ5R4K6IJ7XUQKMAED
-
-## main AWS secret key
 secret_key = cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz
 
-## replace with key id obtained when secret is created, or delete if KMS not tested
-#kms_keyid = 01234567-89ab-cdef-0123-456789abcdef
-
 [s3 alt]
-# alt display_name set in vstart.sh
-display_name = john.doe
-## alt email set in vstart.sh
-email = john.doe@example.com
-
-# alt user_id set in vstart.sh
+## another user account, used for ACL-related tests
 user_id = 56789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01234
-
-# alt AWS access key set in vstart.sh
-access_key = NOPQRSTUVWXYZABCDEFG
-
-# alt AWS secret key set in vstart.sh
-secret_key = nopqrstuvwxyzabcdefghijklmnabcdefghijklm
-
+display_name = test2
+## the "alt" user needs to have email set, too
+email = someone@ceph.io
+access_key = test:tester
+secret_key = testing

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # TODO: Configs for test coverage
@@ -59,10 +59,5 @@ fi
 
 # Start tests
 echo 'Starting s3-tests ...'
-#Checking whether virtualenv exists or not (i.e bootstrap ran or not)
-for entry in "/s3-tests"/*
-do
-  echo "$entry"
-done
 source /s3-tests/virtualenv/bin/activate \
-  && S3TEST_CONF=/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
+  && S3TEST_CONF=/s3tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
