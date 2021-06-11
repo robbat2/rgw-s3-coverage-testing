@@ -4,7 +4,7 @@
 
 IMAGE_TAG=ceph/daemon:latest-pacific
 ENTRYPOINT=demo
-
+S3_ENTRYPOINT=s3-tests
 # TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
 
 CMD=(
@@ -33,3 +33,13 @@ CMD=(
 "${CMD[@]}"
 
 docker start ceph-demo
+
+#Get container IP (CIP)
+CIP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ceph-demo)
+#echo $CIP
+
+cp s3tests.conf.SAMPLE s3tests.conf
+
+docker build -t ${S3_ENTRYPOINT} .
+
+docker run -d -e S3_HOST="${CIP}" ${S3_ENTRYPOINT}
