@@ -8,7 +8,7 @@ To start the test environment:
 
 To list all tests in s3-tests run:
 ```
-docker run s3-tests-image -v --collect-only
+docker run ceph/s3-tests-image -v --collect-only
 ```
 
 To run particular tests run docker run with appropriate flags as
