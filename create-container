@@ -2,9 +2,9 @@
 # Get tags
 # curl -L -s 'https://registry.hub.docker.com/v2/repositories/ceph/daemon/tags?page_size=1024'|jq '."results"[]["name"]'
 
-IMAGE_TAG=ceph/daemon:latest-pacific
-ENTRYPOINT=demo
-S3_IMAGE_TAG=s3-tests-image
+CEPH_IMAGE_TAG=ceph/daemon:latest-pacific
+CEPH_ENTRYPOINT=demo
+S3_IMAGE_TAG=ceph/s3-tests-image:latest
 S3_ENTRYPOINT=s3-tests
 # TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
 
@@ -26,8 +26,8 @@ CMD=(
  -e DATA_TO_SYNC=/etc/modprobe.d
  -e DATA_TO_SYNC_BUCKET=github
  -e OSD_COUNT=2 
- ${IMAGE_TAG}
- ${ENTRYPOINT}
+ ${CEPH_IMAGE_TAG}
+ ${CEPH_ENTRYPOINT}
 )
 
 # this might bail out the first time
