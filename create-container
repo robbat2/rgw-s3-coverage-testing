@@ -2,9 +2,10 @@
 # Get tags
 # curl -L -s 'https://registry.hub.docker.com/v2/repositories/ceph/daemon/tags?page_size=1024'|jq '."results"[]["name"]'
 
-IMAGE_TAG=ceph/daemon:latest-pacific
-ENTRYPOINT=demo
-
+CEPH_IMAGE_TAG=ceph/daemon:latest-pacific
+CEPH_ENTRYPOINT=demo
+S3_IMAGE_TAG=ceph/s3-tests-image:latest
+S3_ENTRYPOINT=s3-tests
 # TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
 
 CMD=(
@@ -25,11 +26,35 @@ CMD=(
  -e DATA_TO_SYNC=/etc/modprobe.d
  -e DATA_TO_SYNC_BUCKET=github
  -e OSD_COUNT=2 
- ${IMAGE_TAG}
- ${ENTRYPOINT}
+ ${CEPH_IMAGE_TAG}
+ ${CEPH_ENTRYPOINT}
 )
 
 # this might bail out the first time
 "${CMD[@]}"
 
 docker start ceph-demo
+
+#Get container IP (CIP)
+CIP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ceph-demo)
+echo $CIP
+
+cp s3tests.conf.SAMPLE s3tests.conf
+
+# Build s3-tests image
+docker build -t ${S3_IMAGE_TAG} .
+
+# s3-tests container
+CMD=(
+docker run --rm
+-e S3_HOST="${CIP}" 
+-e S3_PORT=8000
+-e S3_MAIN_ACCESS_KEY="G1EZ5R4K6IJ7XUQKMAED" 
+-e S3_MAIN_SECRET_KEY="cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz" 
+-e S3_ALT_ACCESS_KEY="96e2dbbfb08e448b8b9d1cd9b73489de" 
+-e S3_ALT_SECRET_KEY="6fda5178ddf34f3f9e3fee3883cf47d6"
+${S3_IMAGE_TAG}
+${S3_ENTRYPOINT}
+)
+
+"${CMD[@]}"
