@@ -5,8 +5,8 @@ services:
     volumes:
       - /etc/modprobe.d:/etc/modprobe.d
       - /mnt/ceph:/var/lib/ceph
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     environment:
       - CEPH_DAEMON=demo
       - RGW_FRONTEND_TYPE=beast
@@ -25,6 +25,7 @@ services:
       - OSD_COUNT=2 
   s3-tests:
     build: ./s3-tests-docker/
+    image: ceph/s3-tests-image:latest
     depends_on:
       - ceph-demo
     links:
