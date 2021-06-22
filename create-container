@@ -9,7 +9,7 @@ S3_ENTRYPOINT=s3-tests
 # TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
 
 CMD=(
- docker run -d --privileged --name ceph-demo 
+ docker run -d -p 8000:8000 --privileged --name ceph-demo 
  -v /etc/modprobe.d:/etc/modprobe.d 
  -v /mnt/ceph:/var/lib/ceph
  -e RGW_FRONTEND_TYPE=beast
@@ -44,10 +44,10 @@ cp s3tests.conf.SAMPLE s3-tests-docker/s3tests.conf
 # Build s3-tests image
 docker build -t ${S3_IMAGE_TAG} ./s3-tests-docker
 
-# s3-tests container
+# s3-tests container  
 CMD=(
-docker run --rm
--e S3_HOST="${CIP}" 
+docker run --rm --link ceph-demo
+-e S3_HOST="${CIP}"
 -e S3_PORT=8000
 -e S3_MAIN_ACCESS_KEY="G1EZ5R4K6IJ7XUQKMAED" 
 -e S3_MAIN_SECRET_KEY="cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz" 
