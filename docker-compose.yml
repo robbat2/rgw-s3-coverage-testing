@@ -1,0 +1,39 @@
+version: '3'
+services:
+  ceph-demo:
+    image: "ceph/daemon:latest-pacific"
+    # ports:
+    #   - "5000:5000"
+    volumes:
+      - /etc/modprobe.d:/etc/modprobe.d
+      - /mnt/ceph:/var/lib/ceph
+    environment:
+      - RGW_FRONTEND_TYPE=beast
+      - DEBUG=verbose
+      - RGW_FRONTEND_PORT=8000
+      - MON_IP=127.0.0.1
+      - CEPH_PUBLIC_NETWORK=0.0.0.0/0
+      - CLUSTER=test
+      - CEPH_DEMO_UID=demo
+      - CEPH_DEMO_ACCESS_KEY=G1EZ5R4K6IJ7XUQKMAED
+      - CEPH_DEMO_SECRET_KEY=cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz
+      - CEPH_DEMO_BUCKET=foobar
+      - SREE_PORT=5001
+      - DATA_TO_SYNC=/etc/modprobe.d
+      - DATA_TO_SYNC_BUCKET=github
+      - OSD_COUNT=2 
+    # command: ["start", "--privileged"]
+    command: docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ceph-demo
+  s3-tests:
+    build: .
+    depends_on:
+      - ceph-demo
+    links:
+      - ceph-demo
+    environment:
+      # S3_HOST="${CIP}" 
+      - S3_PORT=8000
+      - S3_MAIN_ACCESS_KEY="G1EZ5R4K6IJ7XUQKMAED" 
+      - S3_MAIN_SECRET_KEY="cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz" 
+      - S3_ALT_ACCESS_KEY="96e2dbbfb08e448b8b9d1cd9b73489de" 
+      - S3_ALT_SECRET_KEY="6fda5178ddf34f3f9e3fee3883cf47d6"
