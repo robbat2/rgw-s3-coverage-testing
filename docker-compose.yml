@@ -1,10 +1,12 @@
-version: '3.9'
+version: '3'
 services:
   ceph-demo:
     image: "ceph/daemon:latest-pacific"
     volumes:
       - /etc/modprobe.d:/etc/modprobe.d
       - /mnt/ceph:/var/lib/ceph
+    ports:
+      - "8000:8000"
     environment:
       - CEPH_DAEMON=demo
       - RGW_FRONTEND_TYPE=beast
@@ -21,15 +23,14 @@ services:
       - DATA_TO_SYNC=/etc/modprobe.d
       - DATA_TO_SYNC_BUCKET=github
       - OSD_COUNT=2 
-    networks:
-      - rgw-testing-network
   s3-tests:
-    build: .
+    build: ./s3-tests-docker/
     depends_on:
       - ceph-demo
     links:
       - ceph-demo
     environment:
+      - S3_HOST="ceph-demo"
       - S3_PORT=8000
       - S3_MAIN_ACCESS_KEY="G1EZ5R4K6IJ7XUQKMAED" 
       - S3_MAIN_SECRET_KEY="cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz" 

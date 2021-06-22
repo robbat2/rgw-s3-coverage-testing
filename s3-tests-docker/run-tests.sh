@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-
 # TODO: Configs for test coverage
 
 # TODO: coverage.py run for botov3 and botov2
@@ -57,7 +56,13 @@ if [ ! -z "$S3_ALT_SECRET_KEY" ]; then
     /s3tests.conf
 fi
 
+
+# for entry in "s3-tests"/*
+# do
+#   echo "$entry"
+# done
+
 # Start tests
 echo 'Starting s3-tests ...'
 source /s3-tests/virtualenv/bin/activate \
-  && S3TEST_CONF=/s3tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
+  && S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
