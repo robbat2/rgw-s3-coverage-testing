@@ -65,4 +65,7 @@ fi
 # Start tests
 echo 'Starting s3-tests ...'
 source /s3-tests/virtualenv/bin/activate \
-  && S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
+  && S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/python -m nose -a '!fails_on_rgw,!lifecycle_expiration,!fails_strict_rfc2616' -v
+  
+# S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
+
