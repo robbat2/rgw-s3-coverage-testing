@@ -47,10 +47,10 @@ docker build -t ${S3_IMAGE_TAG} ./s3-tests-docker
 # s3-tests container  
 CMD=(
 docker run --rm --link ceph-demo
--e S3_HOST=127.0.0.1
+-e S3_HOST="${CIP}"
 -e S3_PORT=8000
 -e S3_MAIN_ACCESS_KEY=0555b35654ad1656d804
--e S3_MAIN_SECRET_KEY=h7GhxuBLTrlhVUyxSPUKUV8r/2EI4ngqJxD7iBdBYLhwluN30JaT3Q== 
+-e S3_MAIN_SECRET_KEY=xy6oMOtxDsGngoWp1N4GxxfVs+o= 
 -e S3_ALT_ACCESS_KEY=NOPQRSTUVWXYZABCDEFG
 -e S3_ALT_SECRET_KEY=nopqrstuvwxyzabcdefghijklmnabcdefghijklm
 ${S3_IMAGE_TAG}
