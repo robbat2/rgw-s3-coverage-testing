@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -x
 # TODO: Configs for test coverage
 
 # TODO: coverage.py run for botov3 and botov2
@@ -65,7 +65,10 @@ fi
 # Start tests
 echo 'Starting s3-tests ...'
 source /s3-tests/virtualenv/bin/activate \
-  && S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/python -m nose -a '!fails_on_rgw,!lifecycle_expiration,!fails_strict_rfc2616' -v
+  && S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run --omit=/s3-tests/virtualenv/* -m nose -a '!fails_on_rgw,!lifecycle_expiration,!fails_strict_rfc2616'
+
+
+/s3-tests/virtualenv/bin/coverage report -m
   
 # S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
 

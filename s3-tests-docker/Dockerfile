@@ -10,6 +10,7 @@ apt-get install -y virtualenv git sudo gcc
 
 RUN git clone https://github.com/ceph/s3-tests.git \
   && cd s3-tests \
+  && echo coverage==5.5 >> requirements.txt \
   && ./bootstrap
 
 ADD run-tests.sh s3tests.conf /
