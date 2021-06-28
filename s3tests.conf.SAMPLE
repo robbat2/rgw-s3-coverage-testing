@@ -1,8 +1,8 @@
 [DEFAULT]
 ## this section is just used for host, port and bucket_prefix
 
-# host set for rgw in vstart.sh
-host = 172.18.0.2
+# host set for rgw in vstart.sh 172.17.0.2
+host = RGW_IP
 
 # port set for rgw in vstart.sh
 port = 8000
@@ -14,7 +14,7 @@ is_secure = False
 ## all the buckets created will start with this prefix;
 ## {random} will be filled with random characters to pad
 ## the prefix to 30 characters long, and avoid collisions
-bucket prefix = cephDEMO-{random}-
+bucket prefix = ceph-demo-{random}-
 
 [s3 main]
 # main display_name set in vstart.sh
