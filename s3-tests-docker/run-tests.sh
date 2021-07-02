@@ -64,11 +64,16 @@ fi
 
 # Start tests
 echo 'Starting s3-tests ...'
-source /s3-tests/virtualenv/bin/activate \
-  && S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run --omit=/s3-tests/virtualenv/* -m nose -a '!fails_on_rgw,!lifecycle_expiration,!fails_strict_rfc2616'
+source /s3-tests/virtualenv/bin/activate 
+# S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run --omit=/s3-tests/virtualenv/* -m nose -a '!fails_on_rgw,!lifecycle_expiration,!fails_strict_rfc2616'
 
+# S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests -v --collect-only s3tests.functional.test_s3
+
+
+S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
+--include=/s3-tests/virtualenv/lib/python3.6/site-packages/boto/*,/s3-tests/s3tests/*,/s3-tests/s3tests_boto3/* \
+-m nose s3tests.functional.test_s3.test_bucket_create_naming_bad_punctuation 
 
 /s3-tests/virtualenv/bin/coverage report -m
-  
 # S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
 
