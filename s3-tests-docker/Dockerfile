@@ -4,7 +4,7 @@ LABEL authors="Saptarshi Majumder <saptarshimajumder19@gmail.com>, Robin H. John
 
 SHELL ["/bin/bash", "-c"]
 RUN apt-get update && \
-apt-get install -y virtualenv git sudo gcc 
+apt-get install -y virtualenv git sudo gcc jq
 
 # COPY s3tests.conf.SAMPLE ./s3tests.conf
 

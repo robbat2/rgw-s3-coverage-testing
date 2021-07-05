@@ -5,8 +5,9 @@
 CEPH_IMAGE_TAG=ceph/daemon:latest-pacific
 CEPH_ENTRYPOINT=demo
 S3_IMAGE_TAG=ceph/s3-tests-image:latest
-S3_ENTRYPOINT=s3-tests
+S3_ENTRYPOINT=run-tests
 # TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
+
 
 CMD=(
  docker run -d -p 8000:8000 --privileged --name ceph-demo 
@@ -48,7 +49,8 @@ docker build -t ${S3_IMAGE_TAG} ./s3-tests-docker
 
 # s3-tests container  
 CMD=(
-docker run --rm --link ceph-demo
+docker run --link ceph-demo
+--name s3-tests
 -e S3_HOST="${CIP}"
 -e S3_PORT=8000
 ${S3_IMAGE_TAG}
@@ -56,3 +58,11 @@ ${S3_ENTRYPOINT}
 )
 
 "${CMD[@]}"
+
+# export coverage.xml,coverage.json to PWD
+S3_CONTAINER_ID=$(docker ps -aqf "name=s3-tests")
+docker cp $S3_CONTAINER_ID:/s3-tests/coverage.xml $PWD
+docker cp $S3_CONTAINER_ID:/s3-tests/coverage.json $PWD
+
+# clear exited s3-tests container
+docker container rm $(docker ps -q -f status=exited && name=s3-tests)

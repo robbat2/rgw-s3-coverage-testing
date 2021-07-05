@@ -74,6 +74,13 @@ S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
 --include=/s3-tests/virtualenv/lib/python3.6/site-packages/boto/*,/s3-tests/s3tests/*,/s3-tests/s3tests_boto3/* \
 -m nose s3tests.functional.test_s3.test_bucket_create_naming_bad_punctuation 
 
-/s3-tests/virtualenv/bin/coverage report -m
-# S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
+# Generates coverage.xml
+/s3-tests/virtualenv/bin/coverage xml -o /s3-tests/coverage.xml
 
+# Generates coverage.json
+/s3-tests/virtualenv/bin/coverage json  --pretty-print -o /s3-tests/coverage.json
+
+
+# /s3-tests/virtualenv/bin/coverage report -m
+
+# S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
