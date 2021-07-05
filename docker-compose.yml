@@ -35,8 +35,6 @@ services:
       - S3_PORT=8000
       - S3_MAIN_ACCESS_KEY="G1EZ5R4K6IJ7XUQKMAED" 
       - S3_MAIN_SECRET_KEY="cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz" 
-      - S3_ALT_ACCESS_KEY="96e2dbbfb08e448b8b9d1cd9b73489de" 
-      - S3_ALT_SECRET_KEY="6fda5178ddf34f3f9e3fee3883cf47d6"
   # networks:
   #   rgw-testing-network:
   #     external:
