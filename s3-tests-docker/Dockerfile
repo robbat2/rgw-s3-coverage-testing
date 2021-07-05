@@ -6,6 +6,8 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && \
 apt-get install -y virtualenv git sudo gcc 
 
+# COPY s3tests.conf.SAMPLE ./s3tests.conf
+
 RUN git clone https://github.com/ceph/s3-tests.git \
   && cd s3-tests \
   && ./bootstrap
@@ -13,6 +15,5 @@ RUN git clone https://github.com/ceph/s3-tests.git \
 ADD run-tests.sh s3tests.conf /
 ADD s3tests.conf /s3-tests
 
-# RUN /run-tests.sh
 RUN ["chmod","+x","/run-tests.sh"]
 ENTRYPOINT ["/run-tests.sh"]

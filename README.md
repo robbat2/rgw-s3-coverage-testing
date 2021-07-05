@@ -1,18 +1,19 @@
 TODO: write more instructions
 
-To build the test environment: (Starts both ceph-demo and s3-tests containers)
+To build the test environment (using script): (Starts both ceph-demo and s3-tests containers)
 ./create-container
 
-To start the test environment:
-./start-container
-
-To list all tests in s3-tests run:
+To build the test environment (using docker-compose): (Starts both ceph-demo and s3-tests containers)
 ```
-docker run ceph/s3-tests-image -v --collect-only
+docker-compose up -d
 ```
 
-To run particular tests run docker run with appropriate flags as
-mentioned in s3-tests repository.
+To run tests, us `docker run ceph/s3-tests-image` prefix with appropriate flags as
+mentioned in s3-tests repository. For example:
+```
+docker run ceph/s3-tests-image -v -a '!fails_on_rgw,!lifecycle_expiration,!fails_strict_rfc2616'
+```
+
 Requirements:
 -------------
 Your Linux system must have a directory at /mnt/ceph that is writable to the
