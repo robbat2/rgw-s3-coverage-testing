@@ -63,6 +63,7 @@ ${S3_ENTRYPOINT}
 S3_CONTAINER_ID=$(docker ps -aqf "name=s3-tests")
 docker cp $S3_CONTAINER_ID:/s3-tests/coverage.xml $PWD
 docker cp $S3_CONTAINER_ID:/s3-tests/coverage.json $PWD
+docker cp $S3_CONTAINER_ID:/s3-tests/coverage_html $PWD
 
 # clear exited s3-tests container
 docker container rm $(docker ps -q -f status=exited && name=s3-tests)

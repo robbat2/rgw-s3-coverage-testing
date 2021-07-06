@@ -80,6 +80,7 @@ S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
 # Generates coverage.json
 /s3-tests/virtualenv/bin/coverage json  --pretty-print -o /s3-tests/coverage.json
 
+/s3-tests/virtualenv/bin/coverage html -d /s3-tests/coverage_html
 
 # /s3-tests/virtualenv/bin/coverage report -m
 
