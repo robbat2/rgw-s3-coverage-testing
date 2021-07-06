@@ -1,5 +1,5 @@
 #!/bin/bash
 set -x
-docker run --rm -d --link ceph-demo --name s3-tests ceph/s3-tests-image
+docker run ceph/s3-tests-image "$@"
 
 
