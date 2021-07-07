@@ -80,4 +80,3 @@ S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
 # Generates html coverage
 /s3-tests/virtualenv/bin/coverage html -d /s3-tests/coverage_html
 
-# S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/nosetests "$@"
