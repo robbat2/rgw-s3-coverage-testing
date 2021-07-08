@@ -38,36 +38,36 @@ secret_key = cNmUrqpBKjCMzcfqG8fg4Qk07Xkoyau52OmvnSsz
 ## replace with key id obtained when secret is created, or delete if KMS not tested
 #kms_keyid = 01234567-89ab-cdef-0123-456789abcdef
 
-#[s3 alt]
+[s3 alt]
 # alt display_name set in vstart.sh
-#display_name = john.doe
+display_name = john.doe
 ## alt email set in vstart.sh
-#email = john.doe@example.com
+email = john.doe@example.com
 
 # alt user_id set in vstart.sh
-#user_id = 56789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01234
+user_id = demo2
 
 # alt AWS access key set in vstart.sh
-#access_key = NOPQRSTUVWXYZABCDEFG
+access_key = NOPQRSTUVWXYZABCDEFG
 
 # alt AWS secret key set in vstart.sh
-#secret_key = nopqrstuvwxyzabcdefghijklmnabcdefghijklm
+secret_key = nopqrstuvwxyzabcdefghijklmnabcdefghijklm
 
-#[s3 tenant]
+[s3 tenant]
 # tenant display_name set in vstart.sh
-#display_name = testx$tenanteduser
+display_name = testx$tenanteduser
 
 # tenant user_id set in vstart.sh
-#user_id = 9876543210abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+user_id = 9876543210abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 
 # tenant AWS secret key set in vstart.sh
-#access_key = HIJKLMNOPQRSTUVWXYZA
+access_key = HIJKLMNOPQRSTUVWXYZA
 
 # tenant AWS secret key set in vstart.sh
-#secret_key = opqrstuvwxyzabcdefghijklmnopqrstuvwxyzab
+secret_key = opqrstuvwxyzabcdefghijklmnopqrstuvwxyzab
 
 # tenant email set in vstart.sh
-#email = tenanteduser@example.com
+email = tenanteduser@example.com
 
 #following section needs to be added for all sts-tests
 #[iam]

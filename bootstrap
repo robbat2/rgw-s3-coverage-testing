@@ -6,6 +6,7 @@ CEPH_IMAGE_TAG=ceph/daemon:latest-pacific
 CEPH_ENTRYPOINT=demo
 S3_IMAGE_TAG=ceph/s3-tests-image:latest
 S3_ENTRYPOINT=run-tests
+CONF_PATH=/etc/ceph/test.conf
 # TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
 
 
@@ -36,6 +37,33 @@ CMD=(
 
 docker start ceph-demo
 
+# bootstrap s3-alt user
+if [ -f "demo2" ]; then
+    log "Demo user already exists with credentials:"
+else
+    S3_ALT=(docker exec ceph-demo radosgw-admin -c ${CONF_PATH} user create
+    --uid="demo2"
+    --display-name="Ceph demo user 2"
+    --access-key="NOPQRSTUVWXYZABCDEFG"
+    --secret-key="nopqrstuvwxyzabcdefghijklmnabcdefghijklm"
+    )
+    "${S3_ALT[@]}"
+fi
+
+# bootstrap s3-tenant
+if [ -f "tenant" ]; then
+    log "Demo user already exists with credentials:"
+else
+    S3_TENANT=(docker exec ceph-demo radosgw-admin -c ${CONF_PATH} user create
+	--tenant testx
+    --uid="9876543210abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    --access-key="HIJKLMNOPQRSTUVWXYZA"
+    --secret="opqrstuvwxyzabcdefghijklmnopqrstuvwxyzab"
+    --display-name="tenanteduser"
+    --email="tenanteduser@example.com")
+    "${S3_TENANT[@]}"
+fi
+
 # Get container IP (CIP)
 CIP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ceph-demo)
 
@@ -47,23 +75,25 @@ sed -i "s/RGW_IP/$CIP/g" s3-tests-docker/s3tests.conf
 # Build s3-tests image
 docker build -t ${S3_IMAGE_TAG} ./s3-tests-docker
 
-# s3-tests container  
+# Run s3-tests container  
 CMD=(
 docker run --link ceph-demo
 --name s3-tests
 -e S3_HOST="${CIP}"
 -e S3_PORT=8000
 ${S3_IMAGE_TAG}
-${S3_ENTRYPOINT}
+"$@"
 )
 
 "${CMD[@]}"
 
-# export coverage.xml,coverage.json to PWD
+mkdir -p s3tests-output
+# export coverage.xml,coverage.json,coverage_html and nose-output.xml to $PWD/s3tests-output/
 S3_CONTAINER_ID=$(docker ps -aqf "name=s3-tests")
-docker cp $S3_CONTAINER_ID:/s3-tests/coverage.xml $PWD
-docker cp $S3_CONTAINER_ID:/s3-tests/coverage.json $PWD
-docker cp $S3_CONTAINER_ID:/s3-tests/coverage_html $PWD
+docker cp $S3_CONTAINER_ID:/s3-tests/coverage.xml $PWD/s3tests-output/
+docker cp $S3_CONTAINER_ID:/s3-tests/coverage.json $PWD/s3tests-output/
+docker cp $S3_CONTAINER_ID:/s3-tests/coverage_html $PWD/s3tests-output/
+docker cp $S3_CONTAINER_ID:/s3-tests/nose-output.xml $PWD/s3tests-output/
 
 # clear exited s3-tests container
 docker container rm $(docker ps -q -f status=exited && name=s3-tests)
