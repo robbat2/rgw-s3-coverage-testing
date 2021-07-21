@@ -69,6 +69,7 @@ CIP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}
 
 # Copy s3tests.conf.SAMPLE configuration to s3tests.conf 
 # and set RGW_IP in host of s3tests.conf as CIP
+cp analyzer.py s3-tests-docker/analyzer.py
 cp s3tests.conf.SAMPLE s3-tests-docker/s3tests.conf
 sed -i "s/RGW_IP/$CIP/g" s3-tests-docker/s3tests.conf
 
@@ -98,3 +99,7 @@ docker cp $S3_CONTAINER_ID:/s3-tests/report.txt $PWD/s3tests-output/
 
 # clear exited s3-tests container
 docker container rm $(docker ps -q -f status=exited && name=s3-tests)
+
+# install packages for coverage analyzer 
+
+# run coverage analyzer

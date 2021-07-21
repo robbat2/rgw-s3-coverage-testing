@@ -85,3 +85,5 @@ printf "> BOTO SDK source file coverage report for TEST: \n\n" >> /s3-tests/repo
 
 /s3-tests/virtualenv/bin/coverage report -m --skip-covered \
 --include=/s3-tests/virtualenv/lib/*/site-packages/boto/s3/*,/s3-tests/virtualenv/lib/*/site-packages/boto3/s3/* >> /s3-tests/report.txt
+
+/s3-tests/analyzer.py -i s3-tests
