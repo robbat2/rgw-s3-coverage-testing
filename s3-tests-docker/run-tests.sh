@@ -68,7 +68,7 @@ source /s3-tests/virtualenv/bin/activate
 # -m --branch -L nose --with-xunit --xunit-file=/s3-tests/nose-output.xml -v s3tests_boto3.functional.test_s3
 
 S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
---include=/s3-tests/virtualenv/lib/*/site-packages/boto/*,/s3-tests/s3tests/*,/s3-tests/s3tests_boto3/* \
+--include=/s3-tests/virtualenv/lib/*/site-packages/boto/s3/*,/s3-tests/virtualenv/lib/*/site-packages/boto3/s3/*/s3-tests/s3tests/*,/s3-tests/s3tests_boto3/* \
 -m --branch -L nose --with-xunit --xunit-file=/s3-tests/nose-output.xml -v "$@"
 
 # Generates coverage.xml
