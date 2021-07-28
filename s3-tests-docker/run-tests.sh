@@ -80,8 +80,8 @@ S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
 # Generates html coverage
 /s3-tests/virtualenv/bin/coverage html -d /s3-tests/coverage_html
 
-printf "TEST: $@ \n\n" > /s3-tests/report.txt
-printf "BOTO SDK source file coverage report for TEST: \n\n" >> /s3-tests/report.txt
+printf "> TEST: $@ \n\n" > /s3-tests/report.txt
+printf "> BOTO SDK source file coverage report for TEST: \n\n" >> /s3-tests/report.txt
 
-/s3-tests/virtualenv/bin/coverage report --skip-covered \
+/s3-tests/virtualenv/bin/coverage report -m --skip-covered \
 --include=/s3-tests/virtualenv/lib/*/site-packages/boto/s3/*,/s3-tests/virtualenv/lib/*/site-packages/boto3/s3/* >> /s3-tests/report.txt
