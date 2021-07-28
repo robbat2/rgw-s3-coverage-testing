@@ -71,7 +71,7 @@ def coverage_analyzer(input_file_path,output_file_path):
   filenames = get_filenames_from_coverage(input_file_path)
   coverage_json = get_coverage_json(input_file_path)
   f = open(output_file_path,"w")
-  f.write("> Function definitions lacking coverage in BOTO SDK:\n\n")
+  f.write("> Function definitions lacking coverage in BOTO SDK for the current TEST:\n\n")
   for i,filename in enumerate(filenames):
     missing = []
     filename_cov_json = coverage_json["files"][filename]
