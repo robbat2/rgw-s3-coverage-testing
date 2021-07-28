@@ -96,6 +96,7 @@ docker cp $S3_CONTAINER_ID:/s3-tests/coverage.json $PWD/s3tests-output/
 docker cp $S3_CONTAINER_ID:/s3-tests/coverage_html $PWD/s3tests-output/
 docker cp $S3_CONTAINER_ID:/s3-tests/nose-output.xml $PWD/s3tests-output/
 docker cp $S3_CONTAINER_ID:/s3-tests/report.txt $PWD/s3tests-output/
+docker cp $S3_CONTAINER_ID:/s3-tests/cov-analysis.txt $PWD/s3tests-output/
 
 # clear exited s3-tests container
 docker container rm $(docker ps -q -f status=exited && name=s3-tests)
