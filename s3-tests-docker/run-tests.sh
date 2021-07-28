@@ -68,7 +68,7 @@ source /s3-tests/virtualenv/bin/activate
 # -m --branch -L nose --with-xunit --xunit-file=/s3-tests/nose-output.xml -v s3tests_boto3.functional.test_s3
 
 S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
---include=/s3-tests/virtualenv/lib/*/site-packages/boto/s3/*,/s3-tests/virtualenv/lib/*/site-packages/boto3/s3/*/s3-tests/s3tests/*,/s3-tests/s3tests_boto3/* \
+--include=/s3-tests/virtualenv/lib/*/site-packages/boto/s3/*,/s3-tests/virtualenv/lib/*/site-packages/boto3/s3/*,/s3-tests/s3tests/*,/s3-tests/s3tests_boto3/* \
 -m --branch -L nose --with-xunit --xunit-file=/s3-tests/nose-output.xml -v "$@"
 
 # Generates coverage.xml
@@ -80,3 +80,8 @@ S3TEST_CONF=/s3-tests/s3tests.conf /s3-tests/virtualenv/bin/coverage run \
 # Generates html coverage
 /s3-tests/virtualenv/bin/coverage html -d /s3-tests/coverage_html
 
+printf "TEST: $@ \n\n" > /s3-tests/report.txt
+printf "BOTO SDK source file coverage report for TEST: \n\n" >> /s3-tests/report.txt
+
+/s3-tests/virtualenv/bin/coverage report --skip-covered \
+--include=/s3-tests/virtualenv/lib/*/site-packages/boto/s3/*,/s3-tests/virtualenv/lib/*/site-packages/boto3/s3/* >> /s3-tests/report.txt
