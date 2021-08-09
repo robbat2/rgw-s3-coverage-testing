@@ -5,7 +5,7 @@ Coverage analyzer for s3-tests:
 (2) Identifies source files and function signatures in Boto SDK where new tests are to written.
 
 Usage:
-analyzer.py -i <path to directory which contains coverage.json> -t <s3test-command>
+analyzer.py -i <path to directory which contains coverage.json> -t <The s3-test that was ran for coverage>
 """
 import getopt
 import json
