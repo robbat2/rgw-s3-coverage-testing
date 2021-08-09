@@ -7,8 +7,6 @@ CEPH_ENTRYPOINT=demo
 S3_IMAGE_TAG=ceph/s3-tests-image:latest
 S3_ENTRYPOINT=run-tests
 CONF_PATH=/etc/ceph/test.conf
-# TODO: for the purposes of GSoC, this should query the IP back from the container, and then use it for s3-tests
-
 
 CMD=(
  docker run -d -p 8000:8000 --privileged --name ceph-demo 

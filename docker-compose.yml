@@ -5,8 +5,8 @@ services:
     volumes:
       - /etc/modprobe.d:/etc/modprobe.d
       - /mnt/ceph:/var/lib/ceph
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
     environment:
       - CEPH_DAEMON=demo
       - RGW_FRONTEND_TYPE=beast
