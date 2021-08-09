@@ -5,7 +5,7 @@ Coverage analyzer for s3-tests:
 (2) Identifies source files and function signatures in Boto SDK where new tests are to written.
 
 Usage:
-analyzer.py -i <path to directory which contains coverage.json> 
+analyzer.py -i <path to directory which contains coverage.json> -t <s3test-command>
 """
 import getopt
 import json
@@ -66,11 +66,12 @@ def get_filenames_from_coverage(input_file_path):
       filenames.append(key)
   return filenames
 
-def coverage_analyzer(input_file_path,output_file_path):
+def coverage_analyzer(input_file_path,output_file_path,test_name):
   """Analyses the coverage.json and outputs functions signatures for each source-file"""
   filenames = get_filenames_from_coverage(input_file_path)
   coverage_json = get_coverage_json(input_file_path)
   f = open(output_file_path,"w")
+  f.write(f"> TEST: {test_name}\n\n")
   f.write("> Function definitions lacking coverage in BOTO SDK for the current TEST:\n\n")
   for i,filename in enumerate(filenames):
     missing = []
@@ -88,9 +89,10 @@ def main(argv):
     """Get Command Line Arguments"""
     input_file_path = ''
     output_file_path = '/s3-tests/cov-analysis.txt'
+    test_name = ''
     try:
         opts, _ = getopt.getopt(
-            argv, "hi:o:f:", ["ifile=", "ofile=", "format="])
+            argv, "hi:t:", ["ifile=", "test="])
     except getopt.GetoptError:
         print(__doc__)
         sys.exit(2)
@@ -100,6 +102,8 @@ def main(argv):
             sys.exit()
         if opt in ("-i", "--ifile"):
             input_file_path = arg
-    coverage_analyzer(input_file_path,output_file_path)
+        elif opt in ("-t", "--test"):
+            test_name = arg
+    coverage_analyzer(input_file_path,output_file_path,test_name)
 if __name__ == "__main__":
     main(sys.argv[1:])
